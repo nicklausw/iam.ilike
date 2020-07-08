@@ -3,12 +3,18 @@
 function genderPerc() { return Math.round(document.getElementById("genderBar").value); }
 function sexPerc() { return Math.round(document.getElementById("sexBar").value); }
 
-// just keeping up with some basic user info.
-function isTrans() { return document.getElementById("isTrans").checked; }
+// sexuality info.
 function isBigender() { return document.getElementById("isBoth").checked; }
 function isBisexual() { return document.getElementById("likesBoth").checked; }
 function isHetero() { return Math.sign(sexPerc()) !== Math.sign(genderPerc()); }
 function isHomo() { return Math.sign(sexPerc()) === Math.sign(genderPerc()); }
+
+// gender/presentation info.
+function isTrans() { return document.getElementById("isTrans").checked; }
+function isMan() { return genderPerc() === -100; }
+function isWoman() { return genderPerc() === 100; }
+function isMasc() { return genderPerc() < 0; }
+function isFem() { return genderPerc() > 0; }
 
 // takes a percentage from -100 to 100 and returns an appropriate HSL color.
 // from blue to black to pink.
@@ -33,30 +39,29 @@ function sexName() {
         }
     } else if(isHetero()) {
         return " heterosexual";
-    } else if(Math.sign(sexPerc()) === Math.sign(genderPerc())) {
+    } else if(isHomo()) {
         return " homosexual";
     }
 }
 
 function genderName() {
-    var val = genderPerc();
     if(isBigender()) {
         return "bigendered person";
-    } else if(val === -100) {
+    } else if(isMan()) {
         if(isTrans()) {
             return "transman";
         } else {
             return "man";
         }
-    } else if(val === 100) {
+    } else if(isWoman()) {
         if(isTrans()) {
             return "transwoman";
         } else {
             return "woman";
         }
-    } else if(val < 0) {
+    } else if(isMasc()) {
         return "masculine person";
-    } else if(val > 0) {
+    } else if(isFem()) {
         return "feminine person";
     } else {
         return "agender person";
