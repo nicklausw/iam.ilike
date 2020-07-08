@@ -1,0 +1,57 @@
+body {
+    background: black;
+    background-color: black;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.5;
+    margin: 0 auto;
+    padding-bottom: 1em;
+
+    /* smooth fade in and movement up */
+    display: none;
+}
+
+label {
+    color: white;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    color: white;
+    font-weight: 100;
+}
+
+h1 {
+    font-size: 75px;
+    font-weight: 300;
+    line-height: 0.0;
+}
+
+h2 {
+    line-height: 0.5;
+    font-weight: 600;
+}
+
+h3 {
+    line-height: 1.0;
+    font-weight: 300;
+}
+
+a {
+    color: #0083e8;
+    text-decoration: none;
+}
+
+b, strong {
+    font-weight: 600;
+}
+
+p {
+    font-size: 17px;
+}
+
+textarea {
+    background: black;
+    color: white;
+    font-size: 16px;
+    max-width:90%;
+}
