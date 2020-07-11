@@ -4,68 +4,77 @@ function genderPerc() { return Math.round(document.getElementById("genderBar").v
 function sexPerc() { return Math.round(document.getElementById("sexBar").value); }
 
 // sexuality info.
-function isBigender() { return document.getElementById("isBoth").checked; }
-function isBisexual() { return document.getElementById("likesBoth").checked; }
-function isHetero() { return Math.sign(sexPerc()) !== Math.sign(genderPerc()); }
-function isHomo() { return Math.sign(sexPerc()) === Math.sign(genderPerc()); }
+function isBisexual() { return document.getElementById("bisexualCheck").checked; }
+function isAsexual() { return document.getElementById("asexualCheck").checked; }
+function isOtherSex() { return document.getElementById("otherSexCheck").checked; }
+function isHetero() { return document.getElementById("heterosexualCheck").checked; }
+function isHomo() { return document.getElementById("homosexualCheck").checked; }
 
 // gender/presentation info.
-function isTrans() { return document.getElementById("isTrans").checked; }
-function isMan() { return genderPerc() === -100; }
-function isWoman() { return genderPerc() === 100; }
+
+function isAgender() { return document.getElementById("agenderCheck").checked; }
+function isBigender() { return document.getElementById("bigenderCheck").checked; }
+//function isTrans() { return document.getElementById("isTrans").checked; }
+function isMan() { return document.getElementById("maleCheck").checked; }
+function isWoman() { return document.getElementById("femaleCheck").checked; }
+function isBinary() { return document.getElementById("binaryCheck").checked;}
+function isNonbinary() { return document.getElementById("nonbinaryCheck").checked; }
+function isOtherGender() { return document.getElementById("otherGenderCheck").checked; }
 function isMasc() { return genderPerc() < 0; }
 function isFem() { return genderPerc() > 0; }
 
-// takes a percentage from -100 to 100 and returns an appropriate HSL color.
+// takes a percentage from -95 to 95 and returns an appropriate HSL color.
 // from blue to black to pink.
 function getColor(val) {
-    // difference from 0 to 100 should be reduced from 0 to 30
-    var hue = 280 + (val * (30/100));
-    // for lighting, 0 to 100 becomes 0 to 60%
-    var lighting = Math.abs(val * .6);
+    // difference from 0 to 95 should be reduced from 0 to 30
+    var hue = 280 + (val * (30/95));
+    // for lighting, 0 to 95 becomes 0 to 60%
+    var lighting = Math.abs(val * (60/95));
     return "hsl("+hue+", 80%, "+lighting+"%)";
 }
 
 function sexName() {
-    if(isBisexual()) {
-        return " bisexual";
-    } else if(sexPerc() === 0) {
-        return "n asexual";
-     } else if(isBigender() || genderPerc() === 0) {
-        if(sexPerc() < 0) {
-            return "n androsexual";
+    if(isHetero()) return " heterosexual";
+    else if(isHomo()) return " homosexual";
+    else if(isBisexual()) return " bisexual";
+    else if(isAsexual()) return "n asexual";
+    else if(isOtherSex()) {
+        if(document.getElementById("sexInfo").value != "") {
+            return "(n) " + document.getElementById("sexInfo").value;
         } else {
-            return " gynesexual";
+            return " ???";
         }
-    } else if(isHetero()) {
-        return " heterosexual";
-    } else if(isHomo()) {
-        return " homosexual";
     }
+    return "???";
 }
 
 function genderName() {
     if(isBigender()) {
         return "bigendered person";
+    } else if(isAgender()) {
+        return "genderless person";
     } else if(isMan()) {
-        if(isTrans()) {
-            return "transman";
-        } else {
-            return "man";
-        }
+        return "man";
     } else if(isWoman()) {
-        if(isTrans()) {
-            return "transwoman";
+        return "woman";
+    } else if(isNonbinary()) {
+        return "nonbinary person";
+    } else if(isBinary()) {
+        if(isMasc()) {
+            return "masculine person";
+        } else if(isFem()) {
+            return "feminine person";
         } else {
-            return "woman";
+            return "person";
         }
-    } else if(isMasc()) {
-        return "masculine person";
-    } else if(isFem()) {
-        return "feminine person";
-    } else {
-        return "agender person";
+    } else if(isOtherGender()) {
+        if(document.getElementById("sexInfo").value != "") {
+            return document.getElementById("genderInfo").value;
+        } else {
+            return "???";
+        }
     }
+    return "???";
 }
 
 function letemknow() {
@@ -78,8 +87,8 @@ function iAmA() {
 
 function sexInput() {
     // we want to get a preference viewed differently from sexName().
-    var pref = "asexual";
-    document.getElementById("sexBarDiv").style.backgroundColor = getColor(sexPerc());
+    var pref = "neutral";
+    document.getElementById("sexBarColorDiv").style.backgroundColor = getColor(sexPerc());
     if (sexPerc() < 0) {
         pref = "masculine";
     } else if (sexPerc() > 0) {
@@ -90,21 +99,13 @@ function sexInput() {
     } else if(sexPerc() === 100) {
         pref = "women";
     }
-    var bisexual = "";
-    if(isBisexual()) {
-        bisexual = " (bisexual)";
-        if(pref === "asexual") pref = "neutral";
-        if(sexPerc() === -100 || sexPerc() === 100) {
-            pref = pref + "(?)";
-        }
-    }
     // print preference rounded to 2 decimal places
-    document.getElementById("sexMessage").innerHTML = "preference: " + Math.abs(sexPerc()) + "% " + pref + bisexual;
+    document.getElementById("sexMessage").innerHTML = "preference: " + Math.abs(sexPerc()) + "% " + pref;
     iAmA();
 }
 
 function genderInput() {
-    document.getElementById("genderBarDiv").style.backgroundColor = getColor(genderPerc());
+    document.getElementById("genderBarColorDiv").style.backgroundColor = getColor(genderPerc());
     if(isBigender()) {
         document.getElementById("genderMessage").innerHTML = "gender: bigender";
     } else {
@@ -113,30 +114,58 @@ function genderInput() {
     iAmA();
 }
 
+function noSexSpectrum() {
+    document.getElementById("sexBarDiv").style.display = "none";
+    document.getElementById("otherSexDiv").style.display = "none";
+    sexInput();
+}
+
+function noGenderSpectrum() {
+    document.getElementById("genderBarDiv").style.display = "none";
+    document.getElementById("otherGenderDiv").style.display = "none";
+    genderInput();
+}
+
 $(document).ready(function() {
     document.getElementById("sexBar").oninput = sexInput;
-    document.getElementById("likesBoth").oninput = function() {
+    document.getElementById("homosexualCheck").oninput = noSexSpectrum;
+    document.getElementById("heterosexualCheck").oninput = noSexSpectrum;
+    document.getElementById("asexualCheck").oninput = noSexSpectrum;
+    document.getElementById("bisexualCheck").oninput = function() {
         document.getElementById("sexBarDiv").style.display = "block";
+        document.getElementById("otherSexDiv").style.display = "none";
+        sexInput();
+    };
+    document.getElementById("otherSexCheck").oninput = function() {
+        document.getElementById("sexBarDiv").style.display = "none";
+        document.getElementById("otherSexDiv").style.display = "block";
         sexInput();
     };
 
     document.getElementById("genderBar").oninput = genderInput;
-    document.getElementById("isBoth").oninput = function() {
-        if(isBigender()) { // if checked yes
-            document.getElementById("genderBarDiv").style.display = "none";
-        } else {
-            document.getElementById("genderBarDiv").style.display = "block";
-        }
+    document.getElementById("maleCheck").oninput = noGenderSpectrum;
+    document.getElementById("femaleCheck").oninput = noGenderSpectrum;
+    document.getElementById("bigenderCheck").oninput = noGenderSpectrum;
+    document.getElementById("agenderCheck").oninput = noGenderSpectrum;
+    document.getElementById("nonbinaryCheck").oninput = noGenderSpectrum;
+    document.getElementById("binaryCheck").oninput = function() {
+        document.getElementById("genderBarDiv").style.display = "block";
+        document.getElementById("otherGenderDiv").style.display = "none";
         genderInput();
     };
-    document.getElementById("isTrans").oninput = function() {
+    document.getElementById("otherGenderCheck").oninput = function() {
+        document.getElementById("genderBarDiv").style.display = "none";
+        document.getElementById("otherGenderDiv").style.display = "block";
         genderInput();
     };
+
+    document.getElementById("sexInfo").oninput = iAmA;
+    document.getElementById("genderInfo").oninput = iAmA;
+
     document.getElementById("sexBar").value = 0;
     document.getElementById("genderBar").value = 0;
-    document.getElementById("isBoth").checked = false;
-    document.getElementById("likesBoth").checked = false;
-    document.getElementById("isTrans").checked = false;
-    sexInput(); genderInput();
+    document.getElementById("heterosexualCheck").checked = true;
+    document.getElementById("maleCheck").checked = true;
+    noSexSpectrum(); noGenderSpectrum();
     $('#page').fadeIn(1000);
 });
