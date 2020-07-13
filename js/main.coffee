@@ -4,22 +4,21 @@ genderPerc = -> Math.round(document.getElementById("genderBar").value)
 sexPerc = -> Math.round(document.getElementById("sexBar").value)
 
 # sexuality info.
-isBisexual = -> document.getElementById("bisexualCheck").checked
-isAsexual = -> document.getElementById("asexualCheck").checked
-isOtherSex = -> document.getElementById("otherSexCheck").checked
-isHetero = -> document.getElementById("heterosexualCheck").checked
-isHomo = -> document.getElementById("homosexualCheck").checked
+isBisexual = -> document.getElementById("bisexualCheck").selected
+isAsexual = -> document.getElementById("asexualCheck").selected
+isOtherSex = -> document.getElementById("otherSexCheck").selected
+isHetero = -> document.getElementById("heterosexualCheck").selected
+isHomo = -> document.getElementById("homosexualCheck").selected
 
 # gender/presentation info.
 
-isAgender = -> document.getElementById("agenderCheck").checked
-isBigender = -> document.getElementById("bigenderCheck").checked
-#isTrans = -> document.getElementById("isTrans").checked
-isMan = -> document.getElementById("maleCheck").checked
-isWoman = -> document.getElementById("femaleCheck").checked
-isBinary = -> document.getElementById("binaryCheck").checked
-isNonbinary = -> document.getElementById("nonbinaryCheck").checked
-isOtherGender = -> document.getElementById("otherGenderCheck").checked
+isAgender = -> document.getElementById("agenderCheck").selected
+isBigender = -> document.getElementById("bigenderCheck").selected
+isMan = -> document.getElementById("maleCheck").selected
+isWoman = -> document.getElementById("femaleCheck").selected
+isBinary = -> document.getElementById("binaryCheck").selected
+isNonbinary = -> document.getElementById("nonbinaryCheck").selected
+isOtherGender = -> document.getElementById("otherGenderCheck").selected
 isMasc = -> genderPerc() < 0
 isFem = -> genderPerc() > 0
 
@@ -69,8 +68,6 @@ genderName = ->
       return document.getElementById("genderInfo").value
   return "???"
 
-letemknow = -> alert("Your input has been recorded! Thank you.")
-
 iAmA = -> document.getElementById("iama").innerHTML = "I am a" + sexName() + " " + genderName() + "."
 
 sexInput = ->
@@ -109,40 +106,40 @@ noGenderSpectrum = ->
 
 $(document).ready ->
   document.getElementById("sexBar").oninput = sexInput
-  document.getElementById("homosexualCheck").oninput = noSexSpectrum
-  document.getElementById("heterosexualCheck").oninput = noSexSpectrum
-  document.getElementById("asexualCheck").oninput = noSexSpectrum
-  document.getElementById("bisexualCheck").oninput = ->
-    document.getElementById("sexBarDiv").style.display = "block"
-    document.getElementById("otherSexDiv").style.display = "none"
-    sexInput()
-  document.getElementById("otherSexCheck").oninput = ->
-    document.getElementById("sexBarDiv").style.display = "none"
-    document.getElementById("otherSexDiv").style.display = "block"
-    sexInput()
+
+  document.getElementById("sexSelection").oninput = ->
+    sexSelected = document.getElementById("sexSelection").value
+    if sexSelected == "Bisexual"
+      document.getElementById("sexBarDiv").style.display = "block"
+      document.getElementById("otherSexDiv").style.display = "none"
+      sexInput()
+    else if sexSelected == "Other"
+      document.getElementById("sexBarDiv").style.display = "none"
+      document.getElementById("otherSexDiv").style.display = "block"
+      sexInput()
+    else noSexSpectrum()
 
   document.getElementById("genderBar").oninput = genderInput
-  document.getElementById("maleCheck").oninput = noGenderSpectrum
-  document.getElementById("femaleCheck").oninput = noGenderSpectrum
-  document.getElementById("bigenderCheck").oninput = noGenderSpectrum
-  document.getElementById("agenderCheck").oninput = noGenderSpectrum
-  document.getElementById("nonbinaryCheck").oninput = noGenderSpectrum
-  document.getElementById("binaryCheck").oninput = ->
-    document.getElementById("genderBarDiv").style.display = "block"
-    document.getElementById("otherGenderDiv").style.display = "none"
-    genderInput()
-  document.getElementById("otherGenderCheck").oninput = ->
-    document.getElementById("genderBarDiv").style.display = "none"
-    document.getElementById("otherGenderDiv").style.display = "block"
-    genderInput()
+
+  document.getElementById("genderSelection").oninput = ->
+    genderSelected = document.getElementById("genderSelection").value
+    if genderSelected == "Binary"
+      document.getElementById("genderBarDiv").style.display = "block"
+      document.getElementById("otherGenderDiv").style.display = "none"
+      genderInput()
+    else if genderSelected == "Other"
+      document.getElementById("genderBarDiv").style.display = "none"
+      document.getElementById("otherGenderDiv").style.display = "block"
+      genderInput()
+    else noGenderSpectrum()
 
   document.getElementById("sexInfo").oninput = iAmA
   document.getElementById("genderInfo").oninput = iAmA
 
   document.getElementById("sexBar").value = 0
   document.getElementById("genderBar").value = 0
-  document.getElementById("heterosexualCheck").checked = true
-  document.getElementById("maleCheck").checked = true
+  document.getElementById("sexSelection").value = "Heterosexual"
+  document.getElementById("genderSelection").value = "Male"
   noSexSpectrum()
   noGenderSpectrum()
   $('#page').fadeIn(1000)

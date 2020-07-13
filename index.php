@@ -23,11 +23,13 @@
         <h2>sexual preference</h2>
         <h3>select the term that describes your sexual orientation best.</h3>
         <div>
-            <input type="radio" name="sexualityRadio" value="Heterosexual" id="heterosexualCheck"><label for="heterosexualCheck">Heterosexual</label>
-            <input type="radio" name="sexualityRadio" value="Homosexual" id="homosexualCheck"><label for="homosexualCheck">Homosexual</label>
-            <input type="radio" name="sexualityRadio" value="Bisexual" id="bisexualCheck"><label for="bisexualCheck">Bisexual</label>
-            <input type="radio" name="sexualityRadio" value="Asexual" id="asexualCheck"><label for="asexualCheck">Asexual</label>
-            <input type="radio" name="sexualityRadio" value="Other" id="otherSexCheck"><label for="otherSexCheck">Other</label>
+            <select name="sexSelection" id="sexSelection">
+                <option value="Heterosexual" id="heterosexualCheck">Heterosexual</option>
+                <option value="Homosexual" id="homosexualCheck">Homosexual</option>
+                <option value="Bisexual" id="bisexualCheck">Bisexual</option>
+                <option value="Asexual" id="asexualCheck">Asexual</option>
+                <option value="Other" id="otherSexCheck">Other...</option>
+            </select>
         </div>
         <div id="sexBarDiv">
             <h3>place your attraction to men/masculinity and women/femininity on the scale below.</h3>
@@ -45,13 +47,15 @@
         <h2>gender</h2>
         <h3>select the term that describes your gender best.</h3>
         <div>
-            <input type="radio" name="genderRadio" value="Male" id="maleCheck"><label for="maleCheck">Male</label>
-            <input type="radio" name="genderRadio" value="Female" id="femaleCheck"><label for="femaleCheck">Female</label>
-            <input type="radio" name="genderRadio" value="Bigender" id="bigenderCheck"><label for="bigenderCheck">Bigender</label>
-            <input type="radio" name="genderRadio" value="Agender" id="agenderCheck"><label for="agenderCheck">Agender</label>
-            <input type="radio" name="genderRadio" value="Binary" id="binaryCheck"><label for="binaryCheck">Binary Spectrum</label>
-            <input type="radio" name="genderRadio" value="Nonbinary" id="nonbinaryCheck"><label for="nonbinaryCheck">Nonbinary</label>
-            <input type="radio" name="genderRadio" value="Other" id="otherGenderCheck"><label for="otherGenderCheck">Other</label>
+            <select name="genderSelection" id="genderSelection">
+                <option value="Male" id="maleCheck">Male</option>
+                <option value="Female" id="femaleCheck">Female</option>
+                <option value="Bigender" id="bigenderCheck">Bigender</option>
+                <option value="Agender" id="agenderCheck">Agender</option>
+                <option value="Binary" id="binaryCheck">Binary Spectrum</option>
+                <option value="Nonbinary" id="nonbinaryCheck">Nonbinary</option>
+                <option value="Other" id="otherGenderCheck">Other...</option>
+            </select>
         </div>
         <div id="genderBarDiv">
             <h3>place your orientation from male/masculine to female/feminine on the scale below.</h3>
@@ -70,7 +74,7 @@
         <div>
             <textarea maxlength="2000" id="info" name="info" rows="4" cols="50" placeholder="does this statement fittingly describe your orientation? if not, what would be a better description?"></textarea>
         </div>
-        <input type="submit" class="button" name="insert" value="Send Data for Analytics" onclick="letemknow()"/>
+        <input type="submit" class="button" name="insert" value="Send Data for Analytics" onclick="alert('Your input has been recorded! Thank you.');"/>
     </center>
     </body>
     </form>
@@ -88,8 +92,8 @@
     
             $conn = new mysqli($servername, $username, $password, $dbname);
 
-            $Sexuality = $_POST['sexualityRadio'];
-            $Gender = $_POST['genderRadio'];
+            $Sexuality = $_POST['sexSelection'];
+            $Gender = $_POST['genderSelection'];
             $sexSpectrum = $_POST['sexBar'];
             $genderSpectrum = $_POST['genderBar'];
             $Feedback = $_POST['info'];

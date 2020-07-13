@@ -1,7 +1,12 @@
+@import url('https://rsms.me/inter/inter.css');
+html { font-family: 'Inter', sans-serif; }
+@supports (font-variation-settings: normal) {
+  html { font-family: 'Inter var', sans-serif; }
+}
+
 body {
     background: black;
     background-color: black;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 17px;
     line-height: 1.5;
     margin: 0 auto;
@@ -45,7 +50,7 @@ b, strong {
     font-weight: 600;
 }
 
-p {
+p, select, .button {
     font-size: 17px;
 }
 
